@@ -118,7 +118,7 @@ GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1
           h <- S
         } else
         {
-          phi <- function(h, a){
+          phia <- function(h, a){
             c1a <- c1[a+1]
             c2a <- c2[a+1]
 
@@ -128,7 +128,7 @@ GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1
             return(out1 / out2)
           }
 
-          h <- map2_dbl(S, A-1, phi) %>% which.min %>% S[.]
+          h <- map2_dbl(S, A-1, phia) %>% which.min %>% S[.]
         }
       }
     }
