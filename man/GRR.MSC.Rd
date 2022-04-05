@@ -7,7 +7,7 @@
 GRR.MSC(
   y,
   X,
-  MSC = c("EGCV", "GCp"),
+  MSC = c("EGCV", "GCp", "GCV", "Cp", "MCp"),
   alpha = log(n),
   n = length(y),
   tol = 1e-12
@@ -18,9 +18,9 @@ GRR.MSC(
 
 \item{X}{a matrix of explanatory variables without intercept}
 
-\item{MSC}{a model selection criterion; EGCV or GCp}
+\item{MSC}{a model selection criterion; EGCV, GCp, GCV, Cp, or MCp}
 
-\item{alpha}{a value (>=2) expressing penalty strength for MSC}
+\item{alpha}{a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")}
 
 \item{n}{sample size}
 

@@ -10,8 +10,8 @@
 #' @importFrom purrr map2_dbl
 #' @param y a vector of a response variable
 #' @param X a matrix of explanatory variables without intercept
-#' @param MSC a model selection criterion; EGCV or GCp
-#' @param alpha a value (>=2) expressing penalty strength for MSC
+#' @param MSC a model selection criterion; EGCV, GCp, GCV, Cp, or MCp
+#' @param alpha a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")
 #' @param n sample size
 #' @param tol tolerance for rank deficient
 #' @return estimation results
@@ -19,7 +19,7 @@
 #' @examples
 #' #GRR.MSC(y, X)
 
-GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp"), alpha=log(n), n=length(y), tol=1e-12){
+GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n), n=length(y), tol=1e-12){
 
   MSC <- MSC[1]
   cand <- NULL
@@ -27,6 +27,19 @@ GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp"), alpha=log(n), n=length(y), tol=1
   X0 <- X
   X <- scale(X0, scale=F)
   k <- ncol(X)
+
+  if(MSC == "GCV"){MSC <- "EGCV"; alpha <- 2}
+  if(MSC == "Cp"){MSC <- "GCp"; alpha <- 2}
+  if(MSC == "MCp")
+  {
+    if(n-k-3 <= 0)
+    {
+      stop("MCp cannot be defined")
+    } else
+    {
+      MSC <- "GCp"; alpha <- 2 + ( 4/(n-k-3) )
+    }
+  }
 
   X. <- t(X)
   M <- X. %*% X
