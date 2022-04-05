@@ -3,23 +3,28 @@
 
 <!-- badges: start -->
 <!-- badges: end -->
-
-The goal of GRRMSC is to ...
+  
+This package provides generalized ridge estimator with the optimal ridge parameters based on model selection criterion minimization method.
 
 ## Installation
 
-You can install the development version of GRRMSC like so:
-
+You can install the development version of GRRMSC from [GitHub](https://github.com/) with:
+  
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("devtools")
+devtools::install_github("ohishim/GRRMSC")
 ```
 
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
-
+  
 ``` r
 library(GRRMSC)
-## basic example code
-```
 
+# y: a vector of s response variable
+# X: a matrix of explanatory variables without intercept
+
+res <- GRR.MSC(y, X)
+```
+In default, ridge parameters are optimized by minimizing EGCV criterion with $\alpha=\log n$.

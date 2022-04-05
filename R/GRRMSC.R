@@ -1,5 +1,4 @@
-#' @title Generalized ridge regression with the optimal ridge parameters based on
-#'   model selection criterion minimization method
+#' @title Generalized ridge regression optimized based on model selection criterion minimization method
 #' @description \code{GRR.MSC} This function provides generalized ridge estimator
 #'   with the optimal ridge parameters based on model selection criterion minimization method
 #'
@@ -11,7 +10,7 @@
 #' @importFrom purrr map2_dbl
 #' @param y a vector of a response variable
 #' @param X a matrix of explanatory variables without intercept
-#' @param MSC a model selection criterion; GCp or EGCV
+#' @param MSC a model selection criterion; EGCV or GCp
 #' @param alpha a value (>=2) expressing penalty strength for MSC
 #' @param n sample size
 #' @param tol tolerance for rank deficient
@@ -20,7 +19,7 @@
 #' @examples
 #' #GRR.MSC(y, X)
 
-GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1e-12){
+GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp"), alpha=log(n), n=length(y), tol=1e-12){
 
   MSC <- MSC[1]
   cand <- NULL

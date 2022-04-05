@@ -2,13 +2,12 @@
 % Please edit documentation in R/GRRMSC.R
 \name{GRR.MSC}
 \alias{GRR.MSC}
-\title{Generalized ridge regression with the optimal ridge parameters based on
-model selection criterion minimization method}
+\title{Generalized ridge regression optimized based on model selection criterion minimization method}
 \usage{
 GRR.MSC(
   y,
   X,
-  MSC = c("GCp", "EGCV"),
+  MSC = c("EGCV", "GCp"),
   alpha = log(n),
   n = length(y),
   tol = 1e-12
@@ -19,7 +18,7 @@ GRR.MSC(
 
 \item{X}{a matrix of explanatory variables without intercept}
 
-\item{MSC}{a model selection criterion; GCp or EGCV}
+\item{MSC}{a model selection criterion; EGCV or GCp}
 
 \item{alpha}{a value (>=2) expressing penalty strength for MSC}
 
