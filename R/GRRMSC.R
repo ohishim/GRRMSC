@@ -131,12 +131,12 @@ GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1
 
           h <- map2_dbl(S, A-1, phia) %>% which.min %>% S[.]
         }
+
+        cand <- data.frame(
+          value = S, a = A-1
+        )
       }
     }
-
-    cand <- data.frame(
-      value = S, a = A-1
-    )
   } #end if EGCV
 
   v <- (1 - (h/z2)) %>% inset(.<0, 0)
