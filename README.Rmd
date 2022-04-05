@@ -43,4 +43,4 @@ res <- GRR.MSC(y, X)
 ```
 In default, ridge parameters are optimized by minimizing EGCV criterion with $\alpha=\log n$, where $n$ is sample size.
 To change the value of $\alpha$, `GRR.MSC` has a parameter `alpha`.
-You can use $GC_p$ criterion by setting a parameter of `MSC="GCp"`.
+You can use generalized $C_p$ criterion by setting a parameter of `MSC="GCp"`.
