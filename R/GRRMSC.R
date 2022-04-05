@@ -23,6 +23,7 @@
 GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1e-12){
 
   MSC <- MSC[1]
+  cand <- NULL
 
   X0 <- X
   X <- scale(X0, scale=F)
@@ -132,6 +133,10 @@ GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1
         }
       }
     }
+
+    cand <- data.frame(
+      value = S, a = A-1
+    )
   } #end if EGCV
 
   v <- (1 - (h/z2)) %>% inset(.<0, 0)
@@ -154,9 +159,7 @@ GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1
       ) %>% inset(.<0, Inf),
       R2 = R2,
       svd = Xsvd,
-      cand = data.frame(
-        value = S, a = A-1
-      )
+      cand = cand
     )
   )
 }
