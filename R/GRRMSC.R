@@ -27,6 +27,7 @@ GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1
 
   X0 <- X
   X <- scale(X0, scale=F)
+  k <- ncol(X)
 
   X. <- t(X)
   M <- X. %*% X
@@ -156,7 +157,7 @@ GRR.MSC <- function(y, X, MSC=c("GCp", "EGCV"), alpha=log(n), n=length(y), tol=1
       predGRR = yGRR,
       theta = (
         d*h / (z2 - h)
-      ) %>% inset(.<0, Inf),
+      ) %>% inset(.<0, Inf) %>% c(numeric(k-m)),
       R2 = R2,
       svd = Xsvd,
       cand = cand
