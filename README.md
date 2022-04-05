@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 This package provides generalized ridge estimator with the optimal ridge
-parameters based on model selection criterion minimization method.
+parameters based on a model selection criterion minimization method.
 
 ## Installation
 
@@ -33,4 +33,6 @@ res <- GRR.MSC(y, X)
 ```
 
 In default, ridge parameters are optimized by minimizing EGCV criterion
-with *α* = log *n*.
+with *α* = log *n*, where *n* is sample size. To change the value of
+*α*, `GRR.MSC` has a parameter `alpha`. You can use *G**C*<sub>*p*</sub>
+criterion by setting a parameter of `MSC="GCp"`.
