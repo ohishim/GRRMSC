@@ -14,7 +14,8 @@
 #' @param MSC a model selection criterion; EGCV, GCp, GCV, Cp, or MCp
 #' @param alpha a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")
 #' @param n sample size
-#' @param centralized TRUE if X is already centralized
+#' @param intercept if FALSE, intercept is removed from the model
+#' @param centering if TRUE, X is centralized
 #' @param tol tolerance for rank deficient
 #' @return estimation results
 #' @export
@@ -23,7 +24,7 @@
 
 GRR.MSC <- function(
   y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n), n=length(y),
-  centralized=FALSE, tol=1e-12
+  intercept=TRUE, centering=TRUE, tol=1e-12
 ){
   ##############################################################################
   ###   preparation
@@ -32,14 +33,14 @@ GRR.MSC <- function(
   MSC <- MSC[1]
   cand <- NULL
 
-  if(centralized)
-  {
-    Xcenter <- NULL
-  } else
+  if(centering)
   {
     X0 <- X
     X <- scale(X0, scale=F)
     Xcenter <- attributes(X)$`scaled:center`
+  } else
+  {
+    Xcenter <- NULL
   }
 
   k <- ncol(X)
@@ -70,7 +71,8 @@ GRR.MSC <- function(
   P1 <- Xsvd$u[,1:m]
   Q1 <- Xsvd$v[,1:m]
 
-  mu <- mean(y)
+  ybar <- mean(y)
+  mu <- ifelse(intercept, ybar, 0)
   BetaOLS <- Minv %*% X.y %>% drop
   yOLS <- mu + X%*%BetaOLS %>% drop
 
@@ -83,6 +85,8 @@ GRR.MSC <- function(
   {
     sig0 <- sum((y-yOLS)^2)/n
   }
+
+  siginf <- sum((y - ybar)^2)/n
 
   z <- t(P1) %*% y %>% drop
   z2 <- z^2
@@ -151,8 +155,6 @@ GRR.MSC <- function(
         h <- 0
       } else
       {
-        siginf <- sum((y - mu)^2)/n
-
         anb1 <- aa + n*b
         anb2 <- (
           anb1^2 - alpha*(alpha-2)*c2[-(m+1)]*(n*sig0 + c1[-(m+1)])
@@ -202,7 +204,7 @@ GRR.MSC <- function(
   yGRR <- mu + X%*%BetaGRR %>% drop
 
   R2 <- (
-    1 - ( c(sum((y - yOLS)^2), sum((y - yGRR)^2)) / sum((y - mu)^2) )
+    1 - ( c(sum((y - yOLS)^2), sum((y - yGRR)^2)) / (n*siginf) )
   ) %>% set_names(c("OLS", "GRR"))
 
   return(

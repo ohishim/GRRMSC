@@ -10,7 +10,8 @@ GRR.MSC(
   MSC = c("EGCV", "GCp", "GCV", "Cp", "MCp"),
   alpha = log(n),
   n = length(y),
-  centralized = FALSE,
+  intercept = TRUE,
+  centering = TRUE,
   tol = 1e-12
 )
 }
@@ -25,7 +26,9 @@ GRR.MSC(
 
 \item{n}{sample size}
 
-\item{centralized}{TRUE if X is already centralized}
+\item{intercept}{if FALSE, intercept is removed from the model}
+
+\item{centering}{if TRUE, X is centralized}
 
 \item{tol}{tolerance for rank deficient}
 }
