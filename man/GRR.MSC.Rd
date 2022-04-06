@@ -10,6 +10,7 @@ GRR.MSC(
   MSC = c("EGCV", "GCp", "GCV", "Cp", "MCp"),
   alpha = log(n),
   n = length(y),
+  centralized = FALSE,
   tol = 1e-12
 )
 }
@@ -23,6 +24,8 @@ GRR.MSC(
 \item{alpha}{a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")}
 
 \item{n}{sample size}
+
+\item{centralized}{TRUE if X is already centralized}
 
 \item{tol}{tolerance for rank deficient}
 }

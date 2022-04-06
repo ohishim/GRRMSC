@@ -13,19 +13,31 @@
 #' @param MSC a model selection criterion; EGCV, GCp, GCV, Cp, or MCp
 #' @param alpha a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")
 #' @param n sample size
+#' @param centralized TRUE if X is already centralized
 #' @param tol tolerance for rank deficient
 #' @return estimation results
 #' @export
 #' @examples
 #' #GRR.MSC(y, X)
 
-GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n), n=length(y), tol=1e-12){
+GRR.MSC <- function(
+  y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n), n=length(y),
+  centralized=FALSE, tol=1e-12
+){
 
   MSC <- MSC[1]
   cand <- NULL
 
-  X0 <- X
-  X <- scale(X0, scale=F)
+  if(centralized)
+  {
+    Xcenter <- NULL
+  } else
+  {
+    X0 <- X
+    X <- scale(X0, scale=F)
+    Xcenter <- attributes(X)$`scaled:center`
+  }
+
   k <- ncol(X)
 
   if(MSC == "GCV"){MSC <- "EGCV"; alpha <- 2}
@@ -55,8 +67,8 @@ GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n)
   Q1 <- Xsvd$v[,1:m]
 
   mu <- mean(y)
-  BetaLSE <- Minv %*% X.y %>% drop
-  yLSE <- mu + X%*%BetaLSE %>% drop
+  BetaOLS <- Minv %*% X.y %>% drop
+  yOLS <- mu + X%*%BetaOLS %>% drop
 
   b <- (n - m - 1)/n
 
@@ -65,7 +77,7 @@ GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n)
     sig0 <- 0
   } else
   {
-    sig0 <- sum((y-yLSE)^2)/n
+    sig0 <- sum((y-yOLS)^2)/n
   }
 
   z <- t(P1) %*% y %>% drop
@@ -153,26 +165,29 @@ GRR.MSC <- function(y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n)
   } #end if EGCV
 
   v <- (1 - (h/z2)) %>% inset(.<0, 0)
-  BetaGRR <- Q1 %*% diag(v) %*% t(Q1) %*% BetaLSE %>% drop
+  BetaGRR <- Q1 %*% (v*t(Q1)) %*% BetaOLS %>% drop
   yGRR <- mu + X%*%BetaGRR %>% drop
 
   R2 <- (
-    1 - ( c(sum((y - yLSE)^2), sum((y - yGRR)^2)) / sum((y - mu)^2) )
-  ) %>% set_names(c("LSE", "GRR"))
+    1 - ( c(sum((y - yOLS)^2), sum((y - yGRR)^2)) / sum((y - mu)^2) )
+  ) %>% set_names(c("OLS", "GRR"))
 
   return(
     list(
       mu = mu,
-      coefLSE = BetaLSE,
+      coefOLS = BetaOLS,
       coefGRR = BetaGRR,
-      predLSE = yLSE,
+      predOLS = yOLS,
       predGRR = yGRR,
       theta = (
         d*h / (z2 - h)
       ) %>% inset(.<0, Inf) %>% c(numeric(k-m)),
       R2 = R2,
       svd = Xsvd,
-      cand = cand
+      cand = cand,
+      MSC = MSC,
+      alpha = alpha,
+      Xcenter = Xcenter
     )
   )
 }
