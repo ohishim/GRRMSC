@@ -7,6 +7,7 @@
 #' @importFrom magrittr extract
 #' @importFrom magrittr inset
 #' @importFrom magrittr set_names
+#' @importFrom magrittr multiply_by
 #' @importFrom purrr map2_dbl
 #' @param y a vector of a response variable
 #' @param X a matrix of explanatory variables without intercept
@@ -24,6 +25,9 @@ GRR.MSC <- function(
   y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n), n=length(y),
   centralized=FALSE, tol=1e-12
 ){
+  ##############################################################################
+  ###   preparation
+  ##############################################################################
 
   MSC <- MSC[1]
   cand <- NULL
@@ -82,21 +86,46 @@ GRR.MSC <- function(
 
   z <- t(P1) %*% y %>% drop
   z2 <- z^2
-  t <- sort(z2)
-  t0 <- c(0, t)
 
-  c1 <- cumsum(t0)
-  c2 <- sum(1/t) - c(0, cumsum(1/t))
+  ##############################################################################
+  ###   ridge parameters optimization
+  ##############################################################################
 
   if(MSC == "GCp")
-  {
+  {#---   GCp   ----------------------------------------------------------------
+
     if(sig0 == 0){stop("GCp cannot be defined")}
 
-    h <- alpha*sig0/(2*b)
+    s2 <- sig0 / b
+
+    if(alpha == "optimized")
+    {
+      if(k >= n-3){stop("alpha cannot be optimized")}
+
+      t <- sort(z2/s2)
+      t0 <- c(0, t)
+
+      c1 <- cumsum(t0)
+      c2 <- sum(1/t) - c(0, cumsum(1/t))
+
+      q <- 1 - ( 2/(n-k-1) )
+
+      Phia <- q*c2*(t0^2) + 2*c2*t0 - 2*(0:k) + q*c1
+      alpha <- which.min(Phia) %>% t0[.] %>% multiply_by(2)
+    }
+
+    h <- alpha*s2/2
   } #end if GCp
 
   if(MSC == "EGCV")
-  {
+  {#---   EGCV   ---------------------------------------------------------------
+
+    t <- sort(z2)
+    t0 <- c(0, t)
+
+    c1 <- cumsum(t0)
+    c2 <- sum(1/t) - c(0, cumsum(1/t))
+
     aa <- 0:(m-1)
     Rl <- t0[-(m+1)]; Rr <- t
 
@@ -163,6 +192,10 @@ GRR.MSC <- function(
       }
     }
   } #end if EGCV
+
+  ##############################################################################
+  ###   output
+  ##############################################################################
 
   v <- (1 - (h/z2)) %>% inset(.<0, 0)
   BetaGRR <- Q1 %*% (v*t(Q1)) %*% BetaOLS %>% drop

@@ -37,4 +37,7 @@ with *α* = log *n*, by setting parameters at `MSC="EGCV"` and
 `alpha=log(n)` , where *n* (and `n`) is sample size. To use other
 criteria, you can set a parameter `MSC` at “GCp”, “GCV”, “Cp”, or “MCp”.
 For `MSC="EGCV"` or `MSC="GCp"`, `GRR.MSC` has a parameter `alpha` to
-change a value of *α*.
+change a value of *α*. When you set `MSC="GCp"` and `alpha="optimized"`,
+a value of *α* in generalized *C*<sub>*p*</sub> criterion is optimized
+by a method proposed by Ohishi, Yanagihara & Wakaki (2020, KES-IDT-20;
+[10.1007/978-981-15-5925-9\_23](https://doi.org/10.1007/978-981-15-5925-9_23)).
