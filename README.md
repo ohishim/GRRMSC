@@ -49,3 +49,6 @@ To predict for future observation, you can use `GRR.pred` like this:
 
 pred <- GRR.pred(newX, res)
 ```
+
+This package also has a function `pGRR.MSC` which performs for partial
+generalized ridge regression.

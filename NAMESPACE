@@ -3,6 +3,7 @@
 export(FM)
 export(GRR.MSC)
 export(GRR.pred)
+export(pGRR.MSC)
 importFrom(MASS,ginv)
 importFrom(magrittr,"%>%")
 importFrom(magrittr,extract)
