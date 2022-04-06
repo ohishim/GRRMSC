@@ -210,8 +210,8 @@ GRR.MSC <- function(
       mu = mu,
       coefOLS = BetaOLS,
       coefGRR = BetaGRR,
-      predOLS = yOLS,
-      predGRR = yGRR,
+      fitOLS = yOLS,
+      fitGRR = yGRR,
       theta = (
         d*h / (z2 - h)
       ) %>% inset(.<0, Inf) %>% c(numeric(k-m)),
