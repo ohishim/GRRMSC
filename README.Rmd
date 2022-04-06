@@ -45,3 +45,12 @@ In default, ridge parameters are optimized by minimizing EGCV criterion with $\a
 To use other criteria, you can set a parameter `MSC` at "GCp", "GCV", "Cp", or "MCp".
 For `MSC="EGCV"` or `MSC="GCp"`, `GRR.MSC` has a parameter `alpha` to change a value of $\alpha$.
 When you set `MSC="GCp"` and `alpha="optimized"`, a value of $\alpha$ in generalized $C_p$ criterion is optimized by a method proposed by Ohishi, Yanagihara & Wakaki (2020, KES-IDT-20; [10.1007/978-981-15-5925-9_23](https://doi.org/10.1007/978-981-15-5925-9_23)).
+
+To predict for future observation, you can use `GRR.pred` like this:
+
+```{r, eval=F}
+# newX: a matrix of explanatory variables for future observation
+
+pred <- GRR.pred(newX, res)
+```
+
