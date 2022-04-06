@@ -13,7 +13,7 @@
 #' @return simulation data
 #' @export
 #' @examples
-#' #FM()
+#' #FM(n, k)
 
 FM <- function(n, k, rho=0.99, sig=1, beta=1, k0=floor(k/2)){
 

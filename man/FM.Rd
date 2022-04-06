@@ -26,5 +26,5 @@ simulation data
 \code{FM} This function generates simulation data via fixed model
 }
 \examples{
-#FM()
+#FM(n, k)
 }
