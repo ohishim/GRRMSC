@@ -4,7 +4,7 @@
 \alias{predGRR}
 \title{Prediction}
 \usage{
-predGRR(res, newX, newZ)
+predGRR(res, newX, newZ = NULL)
 }
 \arguments{
 \item{res}{the output of \code{GRR.MSC}, \code{pGRR.MSC}, \code{AM.pGRR}}

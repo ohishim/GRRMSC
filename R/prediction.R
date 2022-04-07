@@ -16,7 +16,7 @@
 #' @examples
 #' #predGRR(res, newX)
 
-predGRR <- function(res, newX, newZ){
+predGRR <- function(res, newX, newZ=NULL){
 
   if(class(res) == "GRR.MSC")
   {
