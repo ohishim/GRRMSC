@@ -3,6 +3,7 @@
 #'   with the optimal ridge parameters based on model selection criterion minimization method
 #'
 #' @importFrom magrittr "%>%"
+#' @importFrom magrittr set_class
 #' @param y a vector of a response variable
 #' @param X a matrix of penalized explanatory variables without intercept
 #' @param Z a matrix of non-penalized explanatory variables with intercept if need
@@ -39,12 +40,12 @@ pGRR.MSC <- function(
 
   yh <- (X%*%Beta + Z%*%Gamma) %>% drop
 
-  return(
-    list(
-      beta = Beta,
-      gamma = Gamma,
-      fitted.values = yh,
-      r2 = 1 - sum((y-yh)^2)/sum((y-mean(y))^2)
-    )
-  )
+  out <- list(
+    beta = Beta,
+    gamma = Gamma,
+    fitted.values = yh,
+    r2 = 1 - sum((y-yh)^2)/sum((y-mean(y))^2)
+  ) %>% set_class("pGRR.MSC")
+
+  return(out)
 }

@@ -41,12 +41,12 @@ change a value of *α*. When you set `MSC="GCp"` and `alpha="optimized"`,
 a value of *α* in generalized *C*<sub>*p*</sub> criterion is optimized
 by a method proposed by Ohishi, Yanagihara & Wakaki (2020).
 
-To predict for future observation, you can use `GRR.pred` like this:
+To predict for future observation, you can use `predGRR` like this:
 
 ``` r
 # newX: a matrix of explanatory variables for future observation
 
-pred <- GRR.pred(newX, res)
+pred <- predGRR(res, newX)
 ```
 
 This package also has the following functions:
@@ -56,6 +56,8 @@ This package also has the following functions:
     regression (Fukui <i>et al</i>., 2020).  
 -   `FM`: for generation of simulation data via fixed model (Ohishi,
     Yanagihara & Fujikoshi, 2020).
+
+Note that `predGRR` also performs for `pGRR.MSC` and `AM.pGRR`.
 
 ## References
 

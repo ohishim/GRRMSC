@@ -46,19 +46,21 @@ To use other criteria, you can set a parameter `MSC` at "GCp", "GCV", "Cp", or "
 For `MSC="EGCV"` or `MSC="GCp"`, `GRR.MSC` has a parameter `alpha` to change a value of $\alpha$.
 When you set `MSC="GCp"` and `alpha="optimized"`, a value of $\alpha$ in generalized $C_p$ criterion is optimized by a method proposed by Ohishi, Yanagihara & Wakaki (2020).
 
-To predict for future observation, you can use `GRR.pred` like this:
+To predict for future observation, you can use `predGRR` like this:
 
 ```{r, eval=F}
 # newX: a matrix of explanatory variables for future observation
 
-pred <- GRR.pred(newX, res)
+pred <- predGRR(res, newX)
 ```
 
 This package also has the following functions:  
 
 - `pGRR.MSC`: for partial generalized ridge regression.  
 - `AM.pGRR`:  for additive model via partial generalized ridge regression (Fukui <i>et al</i>., 2020).  
-- `FM`: for generation of simulation data via fixed model (Ohishi, Yanagihara & Fujikoshi, 2020).
+- `FM`: for generation of simulation data via fixed model (Ohishi, Yanagihara & Fujikoshi, 2020).  
+
+Note that `predGRR` also performs for `pGRR.MSC` and `AM.pGRR`.
 
 ## References
 

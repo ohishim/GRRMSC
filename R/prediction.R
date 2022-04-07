@@ -1,27 +1,58 @@
 #' @title Prediction
-#' @description \code{GRR.pred} This function provides predictive values for future observation
+#' @description \code{predGRR} This function provides predictive values for future observation
 #'
 #' @importFrom magrittr "%>%"
-#' @param newX a matrix of explanatory variables for future observation
-#' @param res the output of `GRR.MSC`
+#' @importFrom magrittr inset
+#' @importFrom magrittr raise_to_power
+#' @importFrom magrittr set_colnames
+#' @importFrom purrr invoke
+#' @importFrom purrr map
+#' @param res the output of `GRR.MSC`, `pGRR.MSC`, `AM.pGRR`
+#' @param newX a matrix of penalized explanatory variables for future observation
+#' @param newZ a matrix of non-penalized explanatory variables, with intercept if need,
+#'     for future observation
 #' @return predictive values
 #' @export
 #' @examples
-#' #GRR.pred(newX, res)
+#' #predGRR(res, newX)
 
-GRR.pred <- function(newX, res){
+predGRR <- function(res, newX, newZ){
 
-  if(!is.null(res$Xcenter))
+  if(class(res) == "GRR.MSC")
   {
-    nn <- nrow(newX); k <- ncol(newX)
-    newX0 <- newX
-    newX <- newX0 - matrix(res$Xcenter, nn, k, byrow=T)
+    if(!is.null(res$Xcenter))
+    {
+      nn <- nrow(newX); k <- ncol(newX)
+      newX0 <- newX
+      newX <- newX0 - matrix(res$Xcenter, nn, k, byrow=T)
+    }
+
+    return(
+      list(
+        OLS = res$mu + newX %*% res$coefOLS %>% drop,
+        GRR = res$mu + newX %*% res$coefGRR %>% drop
+      )
+    )
   }
 
-  return(
-    list(
-      OLS = res$mu + newX %*% res$coefOLS %>% drop,
-      GRR = res$mu + newX %*% res$coefGRR %>% drop
-    )
-  )
+  if(class(res) == "pGRR.MSC")
+  {
+    return(drop(
+      newX %*% res$beta + newZ %*% res$gamma
+    ))
+  }
+
+  if(class(res) == "AM.pGRR")
+  {
+    B1 <- map(1:k, ~cpoly(newX[,.x])) %>% invoke(cbind, .) %>% cbind(1, .) %>%
+      set_colnames(NULL)
+
+    TAU <- res$knots
+    B2 <- map(1:k, ~ctrunc(newX[,.x], TAU[,.x])) %>% invoke(cbind, .) %>%
+      set_colnames(NULL)
+
+    return(drop(
+      B1%*%res$gamma + B2%*%res$beta
+    ))
+  }
 }

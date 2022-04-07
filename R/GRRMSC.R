@@ -7,6 +7,7 @@
 #' @importFrom magrittr extract
 #' @importFrom magrittr inset
 #' @importFrom magrittr set_names
+#' @importFrom magrittr set_class
 #' @importFrom magrittr multiply_by
 #' @importFrom purrr map2_dbl
 #' @param y a vector of a response variable
@@ -207,22 +208,22 @@ GRR.MSC <- function(
     1 - ( c(sum((y - yOLS)^2), sum((y - yGRR)^2)) / (n*siginf) )
   ) %>% set_names(c("OLS", "GRR"))
 
-  return(
-    list(
-      mu = mu,
-      coefOLS = BetaOLS,
-      coefGRR = BetaGRR,
-      fitOLS = yOLS,
-      fitGRR = yGRR,
-      theta = (
-        d*h / (z2 - h)
-      ) %>% inset(.<0, Inf) %>% c(numeric(k-m)),
-      R2 = R2,
-      svd = Xsvd,
-      cand = cand,
-      MSC = MSC,
-      alpha = alpha,
-      Xcenter = Xcenter
-    )
-  )
+  out <- list(
+    mu = mu,
+    coefOLS = BetaOLS,
+    coefGRR = BetaGRR,
+    fitOLS = yOLS,
+    fitGRR = yGRR,
+    theta = (
+      d*h / (z2 - h)
+    ) %>% inset(.<0, Inf) %>% c(numeric(k-m)),
+    R2 = R2,
+    svd = Xsvd,
+    cand = cand,
+    MSC = MSC,
+    alpha = alpha,
+    Xcenter = Xcenter
+  ) %>% set_class("GRR.MSC")
+
+  return(out)
 }

@@ -4,8 +4,11 @@
 #' @importFrom magrittr "%>%"
 #' @importFrom magrittr inset
 #' @importFrom magrittr raise_to_power
+#' @importFrom magrittr set_colnames
+#' @importFrom magrittr set_class
 #' @importFrom purrr invoke
 #' @importFrom purrr map
+#' @importFrom stats quantile
 #' @param y a vector of a response variable
 #' @param X a matrix of explanatory variables without intercept
 #' @param k the number of explanatory variables
@@ -20,19 +23,17 @@ AM.pGRR <- function(y, X, k=ncol(X), q=k){
 
   if(length(q) == 1){q <- rep(q, k)}
 
-  cpoly <- function(x){cbind(x, x^2, x^3)}
+  B1 <- map(1:k, ~cpoly(X[,.x])) %>% invoke(cbind, .) %>% cbind(1, .) %>%
+    set_colnames(NULL)
 
-  ctrunc <- function(x, q){
-    tau <- quantile(x, seq(0, 1, length=q+2)[-c(1, q+2)])
-    return(
-      map(tau, ~{
-        (x - .x) %>% raise_to_power(3) %>% inset(.<0, 0)
-      }) %>% invoke(cbind, .)
-    )
-  }
+  TAU <- map(1:k, ~knots(X[,.x], q[.x])) %>% invoke(cbind, .)
+  B2 <- map(1:k, ~ctrunc(X[,.x], TAU[,.x])) %>% invoke(cbind, .) %>%
+    set_colnames(NULL)
 
-  B1 <- map(1:k, ~cpoly(X[,.x])) %>% invoke(cbind, .) %>% cbind(1, .)
-  B2 <- map(1:k, ~ctrunc(X[,.x], q[.x])) %>% invoke(cbind, .)
+  out <- c(
+    pGRR.MSC(y, B2, B1),
+    list(knots=TAU)
+  ) %>% set_class("AM.pGRR")
 
-  return(pGRR.MSC(y, B2, B1))
+  return(out)
 }
