@@ -6,8 +6,8 @@
 #' @param y a vector of a response variable
 #' @param X a matrix of penalized explanatory variables without intercept
 #' @param Z a matrix of non-penalized explanatory variables with intercept if need
-#' @param MSC a model selection criterion; EGCV, GCp, GCV, Cp, or MCp
-#' @param alpha a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")
+#' @param MSC a model selection criterion; `"EGCV"`, `"GCp"`, `"GCV"`, `"Cp"`, or `"MCp"`
+#' @param alpha a value (>=2) expressing penalty strength for `MSC` (only when `MSC` is `"EGCV"` or `"GCp"`)
 #' @param n sample size
 #' @param tol tolerance for rank deficient
 #' @return estimation results

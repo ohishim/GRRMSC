@@ -7,9 +7,9 @@
 #' @param n sample size
 #' @param k the number of explanatory variables
 #' @param rho correlation between explanatory variables
-#' @param sig sig^2 is an error variance
+#' @param sig `sig^2` is an error variance
 #' @param beta true regression coefficients (1 or 2)
-#' @param k0 option when beta=1; the number of non-zero coefficients
+#' @param k0 option when `beta=1`; the number of non-zero coefficients
 #' @return simulation data
 #' @export
 #' @examples

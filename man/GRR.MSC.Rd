@@ -20,15 +20,15 @@ GRR.MSC(
 
 \item{X}{a matrix of explanatory variables without intercept}
 
-\item{MSC}{a model selection criterion; EGCV, GCp, GCV, Cp, or MCp}
+\item{MSC}{a model selection criterion; \code{"EGCV"}, \code{"GCp"}, \code{"GCV"}, \code{"Cp"}, or \code{"MCp"}}
 
-\item{alpha}{a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")}
+\item{alpha}{a value (>=2) expressing penalty strength for \code{MSC} (only when \code{MSC} is \code{"EGCV"} or \code{"GCp"})}
 
 \item{n}{sample size}
 
-\item{intercept}{if FALSE, intercept is removed from the model}
+\item{intercept}{if \code{FALSE}, intercept is removed from the model}
 
-\item{centering}{if TRUE, X is centralized}
+\item{centering}{if \code{TRUE}, \code{X} is centralized}
 
 \item{tol}{tolerance for rank deficient}
 }

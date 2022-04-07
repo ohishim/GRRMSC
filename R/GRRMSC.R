@@ -11,11 +11,11 @@
 #' @importFrom purrr map2_dbl
 #' @param y a vector of a response variable
 #' @param X a matrix of explanatory variables without intercept
-#' @param MSC a model selection criterion; EGCV, GCp, GCV, Cp, or MCp
-#' @param alpha a value (>=2) expressing penalty strength for MSC (only when MSC = "EGCV" or "GCp")
+#' @param MSC a model selection criterion; `"EGCV"`, `"GCp"`, `"GCV"`, `"Cp"`, or `"MCp"`
+#' @param alpha a value (>=2) expressing penalty strength for `MSC` (only when `MSC` is `"EGCV"` or `"GCp"`)
 #' @param n sample size
-#' @param intercept if FALSE, intercept is removed from the model
-#' @param centering if TRUE, X is centralized
+#' @param intercept if `FALSE`, intercept is removed from the model
+#' @param centering if `TRUE`, `X` is centralized
 #' @param tol tolerance for rank deficient
 #' @return estimation results
 #' @export

@@ -9,7 +9,7 @@ GRR.pred(newX, res)
 \arguments{
 \item{newX}{a matrix of explanatory variables for future observation}
 
-\item{res}{the output of GRR.MSC}
+\item{res}{the output of \code{GRR.MSC}}
 }
 \value{
 predictive values

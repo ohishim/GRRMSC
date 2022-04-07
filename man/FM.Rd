@@ -13,11 +13,11 @@ FM(n, k, rho = 0.99, sig = 1, beta = 1, k0 = floor(k/2))
 
 \item{rho}{correlation between explanatory variables}
 
-\item{sig}{sig^2 is an error variance}
+\item{sig}{\code{sig^2} is an error variance}
 
 \item{beta}{true regression coefficients (1 or 2)}
 
-\item{k0}{option when beta=1; the number of non-zero coefficients}
+\item{k0}{option when \code{beta=1}; the number of non-zero coefficients}
 }
 \value{
 simulation data

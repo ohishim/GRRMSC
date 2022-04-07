@@ -3,7 +3,7 @@
 #'
 #' @importFrom magrittr "%>%"
 #' @param newX a matrix of explanatory variables for future observation
-#' @param res the output of GRR.MSC
+#' @param res the output of `GRR.MSC`
 #' @return predictive values
 #' @export
 #' @examples
