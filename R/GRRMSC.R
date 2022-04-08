@@ -40,7 +40,7 @@
 #'   `cand` \tab
 #'     candidates of `h` which gives the optimal ridge parameters \cr \tab \cr
 #'   `MSC` \tab
-#'     `"EGCV"` or `"GCp"` \cr \tab \cr
+#'     `"EGCV"` or `"GCp"` used to optimize ridge parameters \cr \tab \cr
 #'   `alpha` \tab
 #'     the value of penalty strength used in `MSC` \cr \tab \cr
 #'   `Xcenter` \tab

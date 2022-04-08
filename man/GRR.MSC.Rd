@@ -55,7 +55,7 @@ the output of \code{svd(X)}, where \code{X} is centralized if \code{centering=TR
 \code{cand} \tab
 candidates of \code{h} which gives the optimal ridge parameters \cr \tab \cr
 \code{MSC} \tab
-\code{"EGCV"} or \code{"GCp"} \cr \tab \cr
+\code{"EGCV"} or \code{"GCp"} used to optimize ridge parameters \cr \tab \cr
 \code{alpha} \tab
 the value of penalty strength used in \code{MSC} \cr \tab \cr
 \code{Xcenter} \tab
