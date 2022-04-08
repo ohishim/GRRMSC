@@ -12,16 +12,13 @@
 #' @param n sample size
 #' @param tol tolerance for rank deficient
 #' @return a list object with "pGRR.MSC" class which has the following elements:
-#' \tabular{ll}{
-#'   `beta` \tab
-#'     estimates for `X` \cr \tab \cr
-#'   `gamma` \tab
-#'     estimates for `Z` \cr \tab \cr
-#'   `fitted.values` \tab
-#'     fitted values \cr \tab \cr
-#'   `R2` \tab
-#'     the coefficient of determination \cr
-#' }
+#' \item{beta}{estimates for `X`}
+#'
+#' \item{gamma}{estimates for `Z`}
+#'
+#' \item{fitted.values}{fitted values}
+#'
+#' \item{R2}{the coefficient of determination}
 #' @export
 #' @examples
 #' #pGRR.MSC(y, X)

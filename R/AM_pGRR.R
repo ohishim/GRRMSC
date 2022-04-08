@@ -15,21 +15,18 @@
 #' @param q a vector or an integer which is the number of knots;
 #'     if vector, the number of knots is different for each variable
 #' @return a list object with "AM.pGRR" class which has the following elements:
-#' \tabular{ll}{
-#'   `B1`, `B2` \tab
-#'     matrices of explanatory variables transformed by cubic truncated power basis function;
-#'     `B2` is penalized and `B1` is not \cr \tab \cr
-#'   `knots` \tab
-#'     a matrix of knots \cr \tab \cr
-#'   `beta` \tab
-#'     estimates for `B2` \cr \tab \cr
-#'   `gamma` \tab
-#'     estimates for `B1` \cr \tab \cr
-#'   `fitted.values` \tab
-#'     fitted values \cr \tab \cr
-#'   `R2` \tab
-#'     the coefficient of determination \cr
-#' }
+#' \item{B1, B2}{matrices of explanatory variables transformed by cubic truncated power basis function;
+#'     `B2` is penalized and `B1` is not}
+#'
+#' \item{knots}{a matrix of knots}
+#'
+#' \item{beta}{estimates for `B2`}
+#'
+#' \item{gamma}{estimates for `B1`}
+#'
+#' \item{fitted.values}{fitted values}
+#'
+#' \item{R2}{the coefficient of determination}
 #' @export
 #' @examples
 #' #AM.pGRR(y, X)

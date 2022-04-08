@@ -21,14 +21,11 @@ FM(n, k, rho = 0.99, sig = 1, beta = 1, k0 = floor(k/2))
 }
 \value{
 a list object of simulation data which has the following elements:
-\tabular{ll}{
-\code{y} \tab
-a vector of a response variable \cr \tab \cr
-\code{X} \tab
-a matrix of explanatory variables \cr \tab \cr
-\code{beta} \tab
-a vector of the true coefficients \cr
-}
+\item{y}{a vector of a response variable}
+
+\item{X}{a matrix of explanatory variables}
+
+\item{beta}{a vector of the true coefficients}
 }
 \description{
 \code{FM} This function generates simulation data via fixed model

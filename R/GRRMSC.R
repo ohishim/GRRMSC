@@ -19,33 +19,30 @@
 #' @param centering if `TRUE`, `X` is centralized
 #' @param tol tolerance for rank deficient
 #' @return a list object with "GRR.MSC" class which has the following elements:
-#' \tabular{ll}{
-#'   `intercept` \tab
-#'     the estimate for intercept;
-#'     if `centering=TRUE`, this is value for centralized explanatory variables \cr \tab \cr
-#'   `coefOLS` \tab
-#'     the ordinary least squares (OLS) estimates \cr \tab \cr
-#'   `coefGRR` \tab
-#'     the generalized ridge regression (GRR) estimates \cr \tab \cr
-#'   `fitOLS` \tab
-#'     the fitted values by OLS \cr \tab \cr
-#'   `fitGRR` \tab
-#'     the fitted values by GRR \cr \tab \cr
-#'   `theta` \tab
-#'     the optimal ridge parameters \cr \tab \cr
-#'   `R2` \tab
-#'     the coefficient of determination \cr \tab \cr
-#'   `svd` \tab
-#'     the output of `svd(X)`, where `X` is centralized if `centering=TRUE` \cr \tab \cr
-#'   `cand` \tab
-#'     candidates of `h` which gives the optimal ridge parameters \cr \tab \cr
-#'   `MSC` \tab
-#'     `"EGCV"` or `"GCp"` used to optimize ridge parameters \cr \tab \cr
-#'   `alpha` \tab
-#'     the value of penalty strength used in `MSC` \cr \tab \cr
-#'   `Xcenter` \tab
-#'     if `centering=TRUE`, a vector of means for each explanatory variable; if not, NULL \cr
-#' }
+#' \item{intercept}{the estimate for intercept;
+#'     if `centering=TRUE`, this is value for centralized explanatory variables}
+#'
+#' \item{coefOLS}{the ordinary least squares (OLS) estimates}
+#'
+#' \item{coefGRR}{the generalized ridge regression (GRR) estimates}
+#'
+#' \item{fitOLS}{the fitted values by OLS}
+#'
+#' \item{fitGRR}{the fitted values by GRR}
+#'
+#' \item{theta}{the optimal ridge parameters}
+#'
+#' \item{R2}{the coefficient of determination}
+#'
+#' \item{svd}{the output of `svd(X)`, where `X` is centralized if `centering=TRUE`}
+#'
+#' \item{cand}{candidates of `h` which gives the optimal ridge parameters}
+#'
+#' \item{MSC}{`"EGCV"` or `"GCp"` used to optimize ridge parameters}
+#'
+#' \item{alpha}{the value of penalty strength used in `MSC`}
+#'
+#' \item{Xcenter}{if `centering=TRUE`, a vector of means for each explanatory variable; if not, `NULL`}
 #' @export
 #' @examples
 #' #GRR.MSC(y, X)

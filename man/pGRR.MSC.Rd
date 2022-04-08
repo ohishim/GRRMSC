@@ -31,16 +31,13 @@ pGRR.MSC(
 }
 \value{
 a list object with "pGRR.MSC" class which has the following elements:
-\tabular{ll}{
-\code{beta} \tab
-estimates for \code{X} \cr \tab \cr
-\code{gamma} \tab
-estimates for \code{Z} \cr \tab \cr
-\code{fitted.values} \tab
-fitted values \cr \tab \cr
-\code{R2} \tab
-the coefficient of determination \cr
-}
+\item{beta}{estimates for \code{X}}
+
+\item{gamma}{estimates for \code{Z}}
+
+\item{fitted.values}{fitted values}
+
+\item{R2}{the coefficient of determination}
 }
 \description{
 \code{pGRR.MSC} This function provides partial generalized ridge estimator

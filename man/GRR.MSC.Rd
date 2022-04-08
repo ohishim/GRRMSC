@@ -34,33 +34,30 @@ GRR.MSC(
 }
 \value{
 a list object with "GRR.MSC" class which has the following elements:
-\tabular{ll}{
-\code{intercept} \tab
-the estimate for intercept;
-if \code{centering=TRUE}, this is value for centralized explanatory variables \cr \tab \cr
-\code{coefOLS} \tab
-the ordinary least squares (OLS) estimates \cr \tab \cr
-\code{coefGRR} \tab
-the generalized ridge regression (GRR) estimates \cr \tab \cr
-\code{fitOLS} \tab
-the fitted values by OLS \cr \tab \cr
-\code{fitGRR} \tab
-the fitted values by GRR \cr \tab \cr
-\code{theta} \tab
-the optimal ridge parameters \cr \tab \cr
-\code{R2} \tab
-the coefficient of determination \cr \tab \cr
-\code{svd} \tab
-the output of \code{svd(X)}, where \code{X} is centralized if \code{centering=TRUE} \cr \tab \cr
-\code{cand} \tab
-candidates of \code{h} which gives the optimal ridge parameters \cr \tab \cr
-\code{MSC} \tab
-\code{"EGCV"} or \code{"GCp"} used to optimize ridge parameters \cr \tab \cr
-\code{alpha} \tab
-the value of penalty strength used in \code{MSC} \cr \tab \cr
-\code{Xcenter} \tab
-if \code{centering=TRUE}, a vector of means for each explanatory variable; if not, NULL \cr
-}
+\item{intercept}{the estimate for intercept;
+if \code{centering=TRUE}, this is value for centralized explanatory variables}
+
+\item{coefOLS}{the ordinary least squares (OLS) estimates}
+
+\item{coefGRR}{the generalized ridge regression (GRR) estimates}
+
+\item{fitOLS}{the fitted values by OLS}
+
+\item{fitGRR}{the fitted values by GRR}
+
+\item{theta}{the optimal ridge parameters}
+
+\item{R2}{the coefficient of determination}
+
+\item{svd}{the output of \code{svd(X)}, where \code{X} is centralized if \code{centering=TRUE}}
+
+\item{cand}{candidates of \code{h} which gives the optimal ridge parameters}
+
+\item{MSC}{\code{"EGCV"} or \code{"GCp"} used to optimize ridge parameters}
+
+\item{alpha}{the value of penalty strength used in \code{MSC}}
+
+\item{Xcenter}{if \code{centering=TRUE}, a vector of means for each explanatory variable; if not, \code{NULL}}
 }
 \description{
 \code{GRR.MSC} This function provides generalized ridge estimator

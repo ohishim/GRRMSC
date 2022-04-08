@@ -18,21 +18,18 @@ if vector, the number of knots is different for each variable}
 }
 \value{
 a list object with "AM.pGRR" class which has the following elements:
-\tabular{ll}{
-\code{B1}, \code{B2} \tab
-matrices of explanatory variables transformed by cubic truncated power basis function;
-\code{B2} is penalized and \code{B1} is not \cr \tab \cr
-\code{knots} \tab
-a matrix of knots \cr \tab \cr
-\code{beta} \tab
-estimates for \code{B2} \cr \tab \cr
-\code{gamma} \tab
-estimates for \code{B1} \cr \tab \cr
-\code{fitted.values} \tab
-fitted values \cr \tab \cr
-\code{R2} \tab
-the coefficient of determination \cr
-}
+\item{B1, B2}{matrices of explanatory variables transformed by cubic truncated power basis function;
+\code{B2} is penalized and \code{B1} is not}
+
+\item{knots}{a matrix of knots}
+
+\item{beta}{estimates for \code{B2}}
+
+\item{gamma}{estimates for \code{B1}}
+
+\item{fitted.values}{fitted values}
+
+\item{R2}{the coefficient of determination}
 }
 \description{
 \code{AM.pGRR} This function estimates additive model via partial generalized ridge regression
