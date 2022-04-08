@@ -14,7 +14,22 @@
 #' @param k the number of explanatory variables
 #' @param q a vector or an integer which is the number of knots;
 #'     if vector, the number of knots is different for each variable
-#' @return estimation results
+#' @return a list object with "AM.pGRR" class which has the following elements:
+#' \tabular{ll}{
+#'   `B1`, `B2` \tab
+#'     matrices of explanatory variables transformed by cubic truncated power basis function;
+#'     `B2` is penalized and `B1` is not \cr \tab \cr
+#'   `knots` \tab
+#'     a matrix of knots \cr \tab \cr
+#'   `beta` \tab
+#'     estimates for `B2` \cr \tab \cr
+#'   `gamma` \tab
+#'     estimates for `B1` \cr \tab \cr
+#'   `fitted.values` \tab
+#'     fitted values \cr \tab \cr
+#'   `R2` \tab
+#'     the coefficient of determination \cr
+#' }
 #' @export
 #' @examples
 #' #AM.pGRR(y, X)
@@ -31,8 +46,12 @@ AM.pGRR <- function(y, X, k=ncol(X), q=k){
     set_colnames(NULL)
 
   out <- c(
-    pGRR.MSC(y, B2, B1),
-    list(knots=TAU)
+    list(
+      B1 = B1,
+      B2 = B2,
+      knots = TAU
+    ),
+    pGRR.MSC(y, B2, B1)
   ) %>% set_class("AM.pGRR")
 
   return(out)

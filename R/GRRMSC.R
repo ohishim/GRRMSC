@@ -18,7 +18,34 @@
 #' @param intercept if `FALSE`, intercept is removed from the model
 #' @param centering if `TRUE`, `X` is centralized
 #' @param tol tolerance for rank deficient
-#' @return estimation results
+#' @return a list object with "GRR.MSC" class which has the following elements:
+#' \tabular{ll}{
+#'   `intercept` \tab
+#'     the estimate for intercept;
+#'     if `centering=TRUE`, this is value for centralized explanatory variables \cr \tab \cr
+#'   `coefOLS` \tab
+#'     the ordinary least squares (OLS) estimates \cr \tab \cr
+#'   `coefGRR` \tab
+#'     the generalized ridge regression (GRR) estimates \cr \tab \cr
+#'   `fitOLS` \tab
+#'     the fitted values by OLS \cr \tab \cr
+#'   `fitGRR` \tab
+#'     the fitted values by GRR \cr \tab \cr
+#'   `theta` \tab
+#'     the optimal ridge parameters \cr \tab \cr
+#'   `R2` \tab
+#'     the coefficient of determination \cr \tab \cr
+#'   `svd` \tab
+#'     the output of `svd(X)`, where `X` is centralized if `centering=TRUE` \cr \tab \cr
+#'   `cand` \tab
+#'     candidates of `h` which gives the optimal ridge parameters \cr \tab \cr
+#'   `MSC` \tab
+#'     `"EGCV"` or `"GCp"` \cr \tab \cr
+#'   `alpha` \tab
+#'     the value of penalty strength used in `MSC` \cr \tab \cr
+#'   `Xcenter` \tab
+#'     if `centering=TRUE`, a vector of means for each explanatory variable; if not, NULL \cr
+#' }
 #' @export
 #' @examples
 #' #GRR.MSC(y, X)
@@ -209,7 +236,7 @@ GRR.MSC <- function(
   ) %>% set_names(c("OLS", "GRR"))
 
   out <- list(
-    mu = mu,
+    intercept = mu,
     coefOLS = BetaOLS,
     coefGRR = BetaGRR,
     fitOLS = yOLS,

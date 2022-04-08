@@ -11,7 +11,17 @@
 #' @param alpha a value (>=2) expressing penalty strength for `MSC` (only when `MSC` is `"EGCV"` or `"GCp"`)
 #' @param n sample size
 #' @param tol tolerance for rank deficient
-#' @return estimation results
+#' @return a list object with "pGRR.MSC" class which has the following elements:
+#' \tabular{ll}{
+#'   `beta` \tab
+#'     estimates for `X` \cr \tab \cr
+#'   `gamma` \tab
+#'     estimates for `Z` \cr \tab \cr
+#'   `fitted.values` \tab
+#'     fitted values \cr \tab \cr
+#'   `R2` \tab
+#'     the coefficient of determination \cr
+#' }
 #' @export
 #' @examples
 #' #pGRR.MSC(y, X)
@@ -44,7 +54,7 @@ pGRR.MSC <- function(
     beta = Beta,
     gamma = Gamma,
     fitted.values = yh,
-    r2 = 1 - sum((y-yh)^2)/sum((y-mean(y))^2)
+    R2 = 1 - sum((y-yh)^2)/sum((y-mean(y))^2)
   ) %>% set_class("pGRR.MSC")
 
   return(out)

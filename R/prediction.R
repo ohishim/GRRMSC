@@ -11,7 +11,9 @@
 #' @param newX a matrix of penalized explanatory variables for future observation
 #' @param newZ a matrix of non-penalized explanatory variables, with intercept if need,
 #'     for future observation
-#' @return predictive values
+#' @return predictive values;
+#'   if `class(res) == "GRR.MSC"`, this is a list object which has two predictive values
+#'   obtained by OLS and GRR, respectively
 #' @export
 #' @examples
 #' #predGRR(res, newX)
@@ -29,8 +31,8 @@ predGRR <- function(res, newX, newZ=NULL){
 
     return(
       list(
-        OLS = res$mu + newX %*% res$coefOLS %>% drop,
-        GRR = res$mu + newX %*% res$coefGRR %>% drop
+        OLS = res$intercept + newX %*% res$coefOLS %>% drop,
+        GRR = res$intercept + newX %*% res$coefGRR %>% drop
       )
     )
   }

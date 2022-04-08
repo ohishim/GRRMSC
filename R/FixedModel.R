@@ -10,7 +10,15 @@
 #' @param sig `sig^2` is an error variance
 #' @param beta true regression coefficients (1 or 2)
 #' @param k0 option when `beta=1`; the number of non-zero coefficients
-#' @return simulation data
+#' @return a list object of simulation data which has the following elements:
+#' \tabular{ll}{
+#'   `y` \tab
+#'     a vector of a response variable \cr \tab \cr
+#'   `X` \tab
+#'     a matrix of explanatory variables \cr \tab \cr
+#'   `beta` \tab
+#'     a vector of the true coefficients \cr
+#' }
 #' @export
 #' @examples
 #' #FM(n, k)

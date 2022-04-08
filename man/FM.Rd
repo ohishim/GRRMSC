@@ -20,7 +20,15 @@ FM(n, k, rho = 0.99, sig = 1, beta = 1, k0 = floor(k/2))
 \item{k0}{option when \code{beta=1}; the number of non-zero coefficients}
 }
 \value{
-simulation data
+a list object of simulation data which has the following elements:
+\tabular{ll}{
+\code{y} \tab
+a vector of a response variable \cr \tab \cr
+\code{X} \tab
+a matrix of explanatory variables \cr \tab \cr
+\code{beta} \tab
+a vector of the true coefficients \cr
+}
 }
 \description{
 \code{FM} This function generates simulation data via fixed model

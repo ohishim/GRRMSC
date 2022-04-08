@@ -15,7 +15,9 @@ predGRR(res, newX, newZ = NULL)
 for future observation}
 }
 \value{
-predictive values
+predictive values;
+if \code{class(res) == "GRR.MSC"}, this is a list object which has two predictive values
+obtained by OLS and GRR, respectively
 }
 \description{
 \code{predGRR} This function provides predictive values for future observation
