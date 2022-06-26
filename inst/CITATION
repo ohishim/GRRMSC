@@ -1,0 +1,16 @@
+citHeader("To cite GRRMSC in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "title",
+  author   = "Ohishi, M.",
+  journal  = "journal",
+  year     = 2020,
+  volume   = 1,
+  number   = 1,
+  pages    = 1,
+  url      = "https://github.com/ohishim/GRRMSC",
+  textVersion = paste(
+    "text"
+  )
+)
