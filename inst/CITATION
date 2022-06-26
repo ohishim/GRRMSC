@@ -12,5 +12,5 @@ citEntry(
     GRRMSC: Generalized ridge regression optimized based on model selection criterion minimization method.
     R package version 0.1.0.
     https://github.com/ohishim/GRRMSC
-  "")
+  ")
 )
