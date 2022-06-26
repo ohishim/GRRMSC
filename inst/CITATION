@@ -2,7 +2,7 @@ citHeader("To cite GRRMSC in publications use:")
 
 citEntry(
   entry    = "Manual",
-  title    = "Generalized ridge regression optimized based on model selection criterion minimization method",
+  title    = "GRRMSC: Generalized ridge regression optimized based on model selection criterion minimization method",
   author   = "Mineaki Ohishi",
   year     = 2022,
   note     = "R package version 0.1.0",
