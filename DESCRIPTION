@@ -1,9 +1,9 @@
 Package: GRRMSC
 Type: Package
 Title: Generalized ridge regression optimized based on model selection criterion minimization method
-Version: 0.1.0
+Version: 1.0.0
 Author: Mineaki Ohishi
-Maintainer: Mineaki Ohishi <mineaki-ohishi@hiroshima-u.ac.jp>
+Maintainer: Mineaki Ohishi <mineaki.ohishi.a4@tohoku.ac.jp>
 Description: This function provides generalized ridge estimator
    with the optimal ridge parameters based on model selection criterion minimization method.
 License: MIT + file LICENSE
