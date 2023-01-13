@@ -20,7 +20,11 @@ knitr::opts_chunk$set(
 
 This package provides generalized ridge estimator with the optimal ridge parameters based on a model selection criterion minimization method.
 
-**cite this package**
+**cite this package**  
+Ohishi, M. (2023). 
+GRRMSC: Generalized ridge regression optimized based on model selection criterion minimization method. 
+R package version 1.0.0. 
+https://github.com/ohishim/GRRMSC
 
 
 ## Installation
