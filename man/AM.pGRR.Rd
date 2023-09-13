@@ -2,9 +2,9 @@
 % Please edit documentation in R/AM_pGRR.R
 \name{AM.pGRR}
 \alias{AM.pGRR}
-\title{Additive model via partial generalized ridge regression}
+\title{Additive model via partial generalized ridge regression (v0.3.0)}
 \usage{
-AM.pGRR(y, X, k = ncol(X), q = k)
+AM.pGRR(y, X, k = ncol(X), q = k, MSC = "EGCV", alpha = "default", tol = 1e-12)
 }
 \arguments{
 \item{y}{a vector of a response variable}
@@ -15,6 +15,12 @@ AM.pGRR(y, X, k = ncol(X), q = k)
 
 \item{q}{a vector or an integer which is the number of knots;
 if vector, the number of knots is different for each variable}
+
+\item{MSC}{a model selection criterion; see the function \code{GRRMSC}}
+
+\item{alpha}{a value (>=2) expressing penalty strength for \code{MSC}; see the function \code{GRRMSC}}
+
+\item{tol}{tolerance for rank deficient}
 }
 \value{
 a list object with "AM.pGRR" class which has the following elements:

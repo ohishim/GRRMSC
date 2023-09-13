@@ -1,12 +1,8 @@
-#' @title Prediction
+#' @title Prediction (v0.2.0)
 #' @description \code{predGRR} This function provides predictive values for future observation
 #'
-#' @importFrom magrittr "%>%"
-#' @importFrom magrittr inset
-#' @importFrom magrittr raise_to_power
-#' @importFrom magrittr set_colnames
-#' @importFrom purrr invoke
-#' @importFrom purrr map
+#' @importFrom magrittr "%>%" inset raise_to_power set_colnames
+#' @importFrom purrr exec map
 #' @param res the output of `GRR.MSC`, `pGRR.MSC`, `AM.pGRR`
 #' @param newX a matrix of penalized explanatory variables for future observation
 #' @param newZ a matrix of non-penalized explanatory variables, with intercept if need,
@@ -46,11 +42,11 @@ predGRR <- function(res, newX, newZ=NULL){
 
   if(class(res) == "AM.pGRR")
   {
-    B1 <- map(1:k, ~cpoly(newX[,.x])) %>% invoke(cbind, .) %>% cbind(1, .) %>%
+    B1 <- map(1:k, ~cpoly(newX[,.x])) %>% exec(cbind, !!!.) %>% cbind(1, .) %>%
       set_colnames(NULL)
 
     TAU <- res$knots
-    B2 <- map(1:k, ~ctrunc(newX[,.x], TAU[,.x])) %>% invoke(cbind, .) %>%
+    B2 <- map(1:k, ~ctrunc(newX[,.x], TAU[,.x])) %>% exec(cbind, !!!.) %>%
       set_colnames(NULL)
 
     return(drop(

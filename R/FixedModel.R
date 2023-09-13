@@ -1,9 +1,8 @@
-#' @title Generation of simulation data
+#' @title Generation of simulation data (v0.1.0)
 #' @description \code{FM} This function generates simulation data via fixed model
 #'
 #' @importFrom magrittr "%>%"
-#' @importFrom stats rnorm
-#' @importFrom stats runif
+#' @importFrom stats rnorm runif
 #' @param n sample size
 #' @param k the number of explanatory variables
 #' @param rho correlation between explanatory variables

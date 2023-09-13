@@ -1,22 +1,21 @@
-#' @title Generalized ridge regression optimized based on model selection criterion minimization method
+#' @title Generalized ridge regression optimized based on model selection criterion minimization method (v1.0.0)
 #' @description \code{GRR.MSC} This function provides generalized ridge estimator
 #'   with the optimal ridge parameters based on model selection criterion minimization method
 #'
 #' @importFrom MASS ginv
-#' @importFrom magrittr "%>%"
-#' @importFrom magrittr extract
-#' @importFrom magrittr inset
-#' @importFrom magrittr set_names
-#' @importFrom magrittr set_class
-#' @importFrom magrittr multiply_by
-#' @importFrom purrr map2_dbl
+#' @importFrom magrittr "%>%" extract inset set_names set_class multiply_by
+#' @importFrom purrr exec map map2_dbl
 #' @param y a vector of a response variable
 #' @param X a matrix of explanatory variables without intercept
-#' @param MSC a model selection criterion; `"EGCV"`, `"GCp"`, `"GCV"`, `"Cp"`, or `"MCp"`
-#' @param alpha a value (>=2) expressing penalty strength for `MSC` (only when `MSC` is `"EGCV"` or `"GCp"`)
+#' @param MSC a model selection criterion:
+#'     `"EGCV"` (default), `"GCV"`, `"GCp"`, `"Cp"`,`"MCp"`,
+#'     `"GIC"`, `"AIC"`, `"HQC"`, `"BIC"`, `"AICc"` or `"GCVc"`
+#' @param alpha a value (>=2) expressing penalty strength for `"EGCV"`, `"GCp"`,
+#'     `"GIC"` or `"GCVc"`; default for `"EGCV"` and `"GIC"` is `log(n)`;
+#'     default for `"GCp"` is `"optimized"`; default for `"GCVc"` is 1
 #' @param n sample size
 #' @param intercept if `FALSE`, intercept is removed from the model
-#' @param centering if `TRUE`, `X` is centralized
+#' @param centering if `X` is already centralized, set `FALSE`
 #' @param tol tolerance for rank deficient
 #' @return a list object with "GRR.MSC" class which has the following elements:
 #' \item{intercept}{the estimate for intercept;
@@ -38,7 +37,7 @@
 #'
 #' \item{cand}{candidates of `h` which gives the optimal ridge parameters}
 #'
-#' \item{MSC}{`"EGCV"` or `"GCp"` used to optimize ridge parameters}
+#' \item{MSC}{model selection criterion used to optimize ridge parameters}
 #'
 #' \item{alpha}{the value of penalty strength used in `MSC`}
 #'
@@ -48,14 +47,13 @@
 #' #GRR.MSC(y, X)
 
 GRR.MSC <- function(
-  y, X, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n), n=length(y),
+  y, X, MSC="EGCV", alpha="default", n=length(y),
   intercept=TRUE, centering=TRUE, tol=1e-12
 ){
   ##############################################################################
   ###   preparation
   ##############################################################################
 
-  MSC <- MSC[1]
   cand <- NULL
 
   if(centering)
@@ -81,6 +79,17 @@ GRR.MSC <- function(
     {
       MSC <- "GCp"; alpha <- 2 + ( 4/(n-k-3) )
     }
+  }
+  if(MSC == "AIC"){MSC <- "GIC"; alpha <- 2}
+  if(MSC == "HQC"){MSC <- "GIC"; alpha <- 2*log(log(n))}
+  if(MSC == "BIC"){MSC <- "GIC"; alpha <- log(n)}
+
+  if(alpha == "default")
+  {
+    if(MSC %in% c("EGCV", "GIC")){alpha <- log(n)}
+    if(MSC == "GCp"){alpha <- "optimized"}
+    if(MSC == "AICc"){alpha <- "none"}
+    if(MSC == "GCVc"){alpha <- 1}
   }
 
   X. <- t(X)
@@ -144,10 +153,8 @@ GRR.MSC <- function(
     }
 
     h <- alpha*s2/2
-  } #end if GCp
-
-  if(MSC == "EGCV")
-  {#---   EGCV   ---------------------------------------------------------------
+  } else
+  {#---   except GCp   ---------------------------------------------------------
 
     t <- sort(z2)
     t0 <- c(0, t)
@@ -158,38 +165,89 @@ GRR.MSC <- function(
     aa <- 0:(m-1)
     Rl <- t0[-(m+1)]; Rr <- t
 
-    if(alpha == 2)
-    {
-      if(sig0 != 0)
-      {
-        sa <- (n*sig0 + c1[-(m+1)]) / (n - m - 1 + aa)
-        a.ast <- which(Rl < sa & sa <= Rr)
+    if(MSC == "EGCV")
+    {#---   EGCV   -------------------------------------------------------------
 
-        h <- sa[a.ast]
-      } else if(b == 0)
+      if(alpha == 2)
       {
-        h <- t[1]
+        if(sig0 != 0)
+        {
+          sa <- (n*sig0 + c1[-(m+1)]) / (n - m - 1 + aa)
+          a.ast <- which(Rl < sa & sa <= Rr)
+
+          h <- sa[a.ast]
+        } else if(b == 0)
+        {
+          h <- t[1]
+        } else
+        {
+          h <- 0
+        }
       } else
       {
-        h <- 0
+        if(sig0 == 0 & b != 0)
+        {
+          h <- 0
+        } else
+        {
+          anb1 <- aa + n*b
+          anb2 <- (
+            anb1^2 - alpha*(alpha-2)*c2[-(m+1)]*(n*sig0 + c1[-(m+1)])
+          ) %>% inset(.<0, Inf) %>% sqrt
+          Xi <- ( anb1 - anb2 ) / ( (alpha-2)*c2[-(m+1)] )
+
+          A <- which(Rl < Xi & Xi <= Rr)
+          S <- Xi[A]
+
+          if(n*alpha*siginf > 2*(n-1)*t[m])
+          {
+            A <- c(A, m)
+            S <- c(S, t[m])
+          }
+
+          if(length(S) == 1)
+          {
+            h <- S
+          } else
+          {
+            phia <- function(h, a){
+              c1a <- c1[a+1]
+              c2a <- c2[a+1]
+
+              out1 <- sig0 + (c1a + c2a*(h^2))/n
+              out2 <- (b + (a + c2a*h)/n)^alpha
+
+              return(out1 / out2)
+            }
+
+            h <- map2_dbl(S, A-1, phia) %>% which.min %>% S[.]
+          }
+
+          cand <- data.frame(
+            value = S, a = A-1
+          )
+        }
       }
-    } else
-    {
-      if(sig0 == 0 & b != 0)
+    } #end if EGCV
+
+    if(MSC == "GIC")
+    {#---   GIC   --------------------------------------------------------------
+
+      if(sig0 == 0)
       {
         h <- 0
       } else
       {
-        anb1 <- aa + n*b
+        anb1 <- n
         anb2 <- (
-          anb1^2 - alpha*(alpha-2)*c2[-(m+1)]*(n*sig0 + c1[-(m+1)])
+          anb1^2 - (alpha^2)*c2[-(m+1)]*(n*sig0 + c1[-(m+1)])
         ) %>% inset(.<0, Inf) %>% sqrt
-        Xi <- ( anb1 - anb2 ) / ( (alpha-2)*c2[-(m+1)] )
+        Xi <- ( anb1 - anb2 ) / ( alpha*c2[-(m+1)] )
 
         A <- which(Rl < Xi & Xi <= Rr)
         S <- Xi[A]
 
-        if(n*alpha*siginf > 2*(n-1)*t[m])
+        if(alpha*siginf > 2*t[m])
         {
           A <- c(A, m)
           S <- c(S, t[m])
@@ -205,9 +263,9 @@ GRR.MSC <- function(
             c2a <- c2[a+1]
 
             out1 <- sig0 + (c1a + c2a*(h^2))/n
-            out2 <- (b + (a + c2a*h)/n)^alpha
+            out2 <- alpha*(1 + m - a - c2a*h)/n
 
-            return(out1 / out2)
+            return(out1*exp(out2))
           }
 
           h <- map2_dbl(S, A-1, phia) %>% which.min %>% S[.]
@@ -217,8 +275,121 @@ GRR.MSC <- function(
           value = S, a = A-1
         )
       }
-    }
-  } #end if EGCV
+    } #end if GIC
+
+    if(MSC == "AICc")
+    {#---   AICc   -------------------------------------------------------------
+
+      h0s <- (3 + m - aa - n)/c2[-(m+1)]
+      a0 <- which(Rl < h0s & h0s <= Rr)
+
+      if(length(a0) == 0)
+      {
+        exists.a0 <- FALSE
+        a0 <- h0 <- 0
+      } else
+      {
+        exists.a0 <- TRUE
+        h0 <- h0s[a0]
+        a0 <- a0 - 1
+      }
+
+      if(sig0 == 0 & exists.a0 == FALSE)
+      {
+        h <- 0
+      } else
+      {
+        aa <- a0:(m-1); m0 <- length(aa)
+        tt <- c(h0, t[aa+1])
+        Rl <- tt[-(m0+1)]; Rr <- tt[-1]
+
+        psi.coef <- cbind(
+          c2[aa+1]^2,
+          (n - 5 - 2*m + 2*aa)*c2[aa+1],
+          (n - 3 - m + aa)^2,
+          (1 - n)*(n*sig0 + c1[aa+1])
+        )
+
+        cand0 <- map(1:m0, ~{
+          res <- solve3eq(psi.coef[.x,])
+          if(res$discriminant == "positive")
+          {
+            return(cbind(range(res$real.root), aa[.x]))
+          } else
+          {
+            return(c(res$real.root[1], aa[.x]))
+          }
+        }) %>% exec(rbind, !!!.) %>% as.data.frame %>% set_names(c("value", "a"))
+
+        A <- which(Rl[cand0$a+1] < cand0$value & cand0$value <= Rr[cand0$a+1])
+        S <- cand0$value[A]
+
+        if(n*(n-1)*siginf > t[m]*((n-3)^2))
+        {
+          A <- c(A, m)
+          S <- c(S, t[m])
+        }
+
+        if(length(S) == 1)
+        {
+          h <- S
+        } else
+        {
+          phia <- function(h, a){
+            c1a <- c1[a+1]
+            c2a <- c2[a+1]
+
+            out1 <- sig0 + (c1a + c2a*(h^2))/n
+            out2 <- (2*(2 + m - a - c2a*h)) / (n - 3 - m + a + c2a*h)
+
+            return(out1*exp(out2))
+          }
+
+          h <- map2_dbl(S, A-1, phia) %>% which.min %>% S[.]
+        }
+
+        cand <- data.frame(
+          value = S, a = A-1
+        )
+      }
+    } #end if AICc
+
+    if(MSC == "GCVc")
+    {#---   GCVc   -------------------------------------------------------------
+
+      h0s <- (1 + m - aa + alpha - n)/c2[-(m+1)]
+      a0 <- which(Rl < h0s & h0s <= Rr)
+
+      if(length(a0) == 0)
+      {
+        exists.a0 <- FALSE
+        a0 <- h0 <- 0
+      } else
+      {
+        exists.a0 <- TRUE
+        h0 <- h0s[a0]
+        a0 <- a0 - 1
+      }
+
+      if(sig0 == 0 & exists.a0 == FALSE)
+      {
+        h <- 0
+      } else if(n*siginf > (n - 1 - alpha)*t[m])
+      {
+        h <- t[m]
+      } else
+      {
+        aa <- a0:(m-1)
+        tt <- c(h0, t[aa+1])
+        Rl <- tt[-length(tt)]; Rr <- tt[-1]
+
+        sa <- (n*sig0 + c1[aa+1]) / (n - m - 1 + aa - alpha)
+        a.ast <- which(Rl < sa & sa <= Rr)
+
+        h <- sa[a.ast]
+      }
+    } #end if GCVc
+  }
 
   ##############################################################################
   ###   output

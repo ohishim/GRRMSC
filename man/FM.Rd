@@ -2,7 +2,7 @@
 % Please edit documentation in R/FixedModel.R
 \name{FM}
 \alias{FM}
-\title{Generation of simulation data}
+\title{Generation of simulation data (v0.1.0)}
 \usage{
 FM(n, k, rho = 0.99, sig = 1, beta = 1, k0 = floor(k/2))
 }

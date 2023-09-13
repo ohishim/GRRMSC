@@ -2,17 +2,9 @@
 % Please edit documentation in R/pGRRMSC.R
 \name{pGRR.MSC}
 \alias{pGRR.MSC}
-\title{Partial generalized ridge regression optimized based on model selection criterion minimization method}
+\title{Partial generalized ridge regression optimized based on model selection criterion minimization method (v0.2.0)}
 \usage{
-pGRR.MSC(
-  y,
-  X,
-  Z,
-  MSC = c("EGCV", "GCp", "GCV", "Cp", "MCp"),
-  alpha = log(n),
-  n = length(y),
-  tol = 1e-12
-)
+pGRR.MSC(y, X, Z, MSC = "EGCV", alpha = "default", n = length(y), tol = 1e-12)
 }
 \arguments{
 \item{y}{a vector of a response variable}
@@ -21,9 +13,9 @@ pGRR.MSC(
 
 \item{Z}{a matrix of non-penalized explanatory variables with intercept if need}
 
-\item{MSC}{a model selection criterion; \code{"EGCV"}, \code{"GCp"}, \code{"GCV"}, \code{"Cp"}, or \code{"MCp"}}
+\item{MSC}{a model selection criterion; see the function \code{GRRMSC}}
 
-\item{alpha}{a value (>=2) expressing penalty strength for \code{MSC} (only when \code{MSC} is \code{"EGCV"} or \code{"GCp"})}
+\item{alpha}{a value (>=2) expressing penalty strength for \code{MSC}; see the function \code{GRRMSC}}
 
 \item{n}{sample size}
 

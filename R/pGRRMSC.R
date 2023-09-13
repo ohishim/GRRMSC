@@ -1,14 +1,13 @@
-#' @title Partial generalized ridge regression optimized based on model selection criterion minimization method
+#' @title Partial generalized ridge regression optimized based on model selection criterion minimization method (v0.2.0)
 #' @description \code{pGRR.MSC} This function provides partial generalized ridge estimator
 #'   with the optimal ridge parameters based on model selection criterion minimization method
 #'
-#' @importFrom magrittr "%>%"
-#' @importFrom magrittr set_class
+#' @importFrom magrittr "%>%" set_class
 #' @param y a vector of a response variable
 #' @param X a matrix of penalized explanatory variables without intercept
 #' @param Z a matrix of non-penalized explanatory variables with intercept if need
-#' @param MSC a model selection criterion; `"EGCV"`, `"GCp"`, `"GCV"`, `"Cp"`, or `"MCp"`
-#' @param alpha a value (>=2) expressing penalty strength for `MSC` (only when `MSC` is `"EGCV"` or `"GCp"`)
+#' @param MSC a model selection criterion; see the function `GRRMSC`
+#' @param alpha a value (>=2) expressing penalty strength for `MSC`; see the function `GRRMSC`
 #' @param n sample size
 #' @param tol tolerance for rank deficient
 #' @return a list object with "pGRR.MSC" class which has the following elements:
@@ -24,10 +23,8 @@
 #' #pGRR.MSC(y, X)
 
 pGRR.MSC <- function(
-  y, X, Z, MSC=c("EGCV", "GCp", "GCV", "Cp", "MCp"), alpha=log(n), n=length(y), tol=1e-12
+  y, X, Z, MSC="EGCV", alpha="default", n=length(y), tol=1e-12
 ){
-  MSC <- MSC[1]
-
   Z. <- t(Z)
   W <- Z. %*% Z
   Winv <- solve(W)

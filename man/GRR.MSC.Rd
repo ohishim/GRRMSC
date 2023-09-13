@@ -2,13 +2,13 @@
 % Please edit documentation in R/GRRMSC.R
 \name{GRR.MSC}
 \alias{GRR.MSC}
-\title{Generalized ridge regression optimized based on model selection criterion minimization method}
+\title{Generalized ridge regression optimized based on model selection criterion minimization method (v1.0.0)}
 \usage{
 GRR.MSC(
   y,
   X,
-  MSC = c("EGCV", "GCp", "GCV", "Cp", "MCp"),
-  alpha = log(n),
+  MSC = "EGCV",
+  alpha = "default",
   n = length(y),
   intercept = TRUE,
   centering = TRUE,
@@ -20,15 +20,19 @@ GRR.MSC(
 
 \item{X}{a matrix of explanatory variables without intercept}
 
-\item{MSC}{a model selection criterion; \code{"EGCV"}, \code{"GCp"}, \code{"GCV"}, \code{"Cp"}, or \code{"MCp"}}
+\item{MSC}{a model selection criterion:
+\code{"EGCV"} (default), \code{"GCV"}, \code{"GCp"}, \code{"Cp"},\code{"MCp"},
+\code{"GIC"}, \code{"AIC"}, \code{"HQC"}, \code{"BIC"}, \code{"AICc"} or \code{"GCVc"}}
 
-\item{alpha}{a value (>=2) expressing penalty strength for \code{MSC} (only when \code{MSC} is \code{"EGCV"} or \code{"GCp"})}
+\item{alpha}{a value (>=2) expressing penalty strength for \code{"EGCV"}, \code{"GCp"},
+\code{"GIC"} or \code{"GCVc"}; default for \code{"EGCV"} and \code{"GIC"} is \code{log(n)};
+default for \code{"GCp"} is \code{"optimized"}; default for \code{"GCVc"} is 1}
 
 \item{n}{sample size}
 
 \item{intercept}{if \code{FALSE}, intercept is removed from the model}
 
-\item{centering}{if \code{TRUE}, \code{X} is centralized}
+\item{centering}{if \code{X} is already centralized, set \code{FALSE}}
 
 \item{tol}{tolerance for rank deficient}
 }
@@ -53,7 +57,7 @@ if \code{centering=TRUE}, this is value for centralized explanatory variables}
 
 \item{cand}{candidates of \code{h} which gives the optimal ridge parameters}
 
-\item{MSC}{\code{"EGCV"} or \code{"GCp"} used to optimize ridge parameters}
+\item{MSC}{model selection criterion used to optimize ridge parameters}
 
 \item{alpha}{the value of penalty strength used in \code{MSC}}
 

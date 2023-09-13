@@ -2,7 +2,7 @@
 % Please edit documentation in R/prediction.R
 \name{predGRR}
 \alias{predGRR}
-\title{Prediction}
+\title{Prediction (v0.2.0)}
 \usage{
 predGRR(res, newX, newZ = NULL)
 }

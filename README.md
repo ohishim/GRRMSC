@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# GRRMSC (v1.0.0)
+# GRRMSC (v1.1.0)
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -12,7 +12,7 @@ parameters based on a model selection criterion minimization method.
 **cite this package**:  
 Ohishi, M. (2023). GRRMSC: Generalized ridge regression optimized based
 on model selection criterion minimization method. R package version
-1.0.0. <https://github.com/ohishim/GRRMSC>
+1.1.0. <https://github.com/ohishim/GRRMSC>
 
 ## Installation
 
@@ -38,11 +38,11 @@ res <- GRR.MSC(y, X)
 ```
 
 In default, ridge parameters are optimized by minimizing EGCV criterion
-with $\alpha=\log n$, by setting parameters at `MSC="EGCV"` and
-`alpha=log(n)` , where $n$ (and `n`) is sample size. To use other
-criteria, you can set a parameter `MSC` at “GCp”, “GCV”, “Cp”, or “MCp”.
-For `MSC="EGCV"` or `MSC="GCp"`, `GRR.MSC` has a parameter `alpha` to
-change a value of $\alpha$. When you set `MSC="GCp"` and
+with $\alpha=\log n$, where $n$ (and `n`) is sample size. To use other
+criteria, you can set a parameter `MSC` at “GCV”, “GCp”, “Cp”, “MCp”,
+“GIC”, “AIC”, “HQC”, “BIC”, “AICc” or “GCVc”. For `MSC="EGCV"`,
+`MSC="GCp"`, `MSC="GIC"`, and `MSC="GCVc"`, `GRR.MSC` has a parameter
+`alpha` to change a value of $\alpha$. When you set `MSC="GCp"` and
 `alpha="optimized"`, a value of $\alpha$ in generalized $C_p$ criterion
 is optimized by a method proposed by Ohishi, Yanagihara & Wakaki (2020).
 
