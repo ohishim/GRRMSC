@@ -1,4 +1,4 @@
-#' @title Generalized ridge regression optimized based on model selection criterion minimization method (v1.0.0)
+#' @title Generalized ridge regression optimized based on model selection criterion minimization method (v1.1.0)
 #' @description \code{GRR.MSC} This function provides generalized ridge estimator
 #'   with the optimal ridge parameters based on model selection criterion minimization method
 #'
@@ -314,19 +314,20 @@ GRR.MSC <- function(
           res <- solve3eq(psi.coef[.x,])
           if(res$discriminant == "positive")
           {
-            return(cbind(range(res$real.root), aa[.x]))
+            return(cbind(range(res$real.root), aa[.x], .x))
           } else
           {
-            return(c(res$real.root[1], aa[.x]))
+            return(c(res$real.root[1], aa[.x], .x))
           }
-        }) %>% exec(rbind, !!!.) %>% as.data.frame %>% set_names(c("value", "a"))
+        }) %>% exec(rbind, !!!.) %>% as.data.frame %>% set_names(c("value", "a", "idx"))
 
-        A <- which(Rl[cand0$a+1] < cand0$value & cand0$value <= Rr[cand0$a+1])
-        S <- cand0$value[A]
+        idxCand <- which(Rl[cand0$idx] < cand0$value & cand0$value <= Rr[cand0$idx])
+        A <- cand0$a[idxCand]
+        S <- cand0$value[idxCand]
 
         if(n*(n-1)*siginf > t[m]*((n-3)^2))
         {
-          A <- c(A, m)
+          A <- c(A, m-1)
           S <- c(S, t[m])
         }
 
@@ -345,11 +346,11 @@ GRR.MSC <- function(
             return(out1*exp(out2))
           }
 
-          h <- map2_dbl(S, A-1, phia) %>% which.min %>% S[.]
+          h <- map2_dbl(S, A, phia) %>% which.min %>% S[.]
         }
 
         cand <- data.frame(
-          value = S, a = A-1
+          value = S, a = A
         )
       }
     } #end if AICc

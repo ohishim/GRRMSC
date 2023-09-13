@@ -5,12 +5,12 @@ citEntry(
   title    = "GRRMSC: Generalized ridge regression optimized based on model selection criterion minimization method",
   author   = "Ohishi M.",
   year     = 2023,
-  note     = "R package version 1.1.0",
+  note     = "R package version 1.2.0",
   url      = "https://github.com/ohishim/GRRMSC",
   textVersion = paste("
     Ohishi, M. (2023).
     GRRMSC: Generalized ridge regression optimized based on model selection criterion minimization method.
-    R package version 1.1.0.
+    R package version 1.2.0.
     https://github.com/ohishim/GRRMSC
   ")
 )

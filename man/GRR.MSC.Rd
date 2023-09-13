@@ -2,7 +2,7 @@
 % Please edit documentation in R/GRRMSC.R
 \name{GRR.MSC}
 \alias{GRR.MSC}
-\title{Generalized ridge regression optimized based on model selection criterion minimization method (v1.0.0)}
+\title{Generalized ridge regression optimized based on model selection criterion minimization method (v1.1.0)}
 \usage{
 GRR.MSC(
   y,

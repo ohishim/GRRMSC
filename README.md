@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# GRRMSC (v1.1.0)
+# GRRMSC (v1.2.0)
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -12,7 +12,7 @@ parameters based on a model selection criterion minimization method.
 **cite this package**:  
 Ohishi, M. (2023). GRRMSC: Generalized ridge regression optimized based
 on model selection criterion minimization method. R package version
-1.1.0. <https://github.com/ohishim/GRRMSC>
+1.2.0. <https://github.com/ohishim/GRRMSC>
 
 ## Installation
 
